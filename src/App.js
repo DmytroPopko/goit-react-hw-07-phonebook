@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addContact, deleteContact, fetchContacts } from './redux/operations';
 import { setFilter } from './redux/contactSlice';
 import { nanoid } from '@reduxjs/toolkit';
-import { selectContact } from './redux/selectors';
+import { selectContacts } from './redux/selectors';
 import Container from './components/Container';
 import { SectionTitle } from 'components/SectionTitle';
 import { ContactForm } from 'components/ContactForm';
@@ -12,11 +12,12 @@ import Filter from './components/Filter';
 import IconButton from './components/IconButton';
 import Modal from './components/Modal';
 import { ReactComponent as AddIcon } from './icons/add.svg';
+// import { selectVisibleConcats } from "redux/selectors";
 
 const App = () => {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
-  const { filterTerm, contacts, isLoading, error } = useSelector(selectContact);
+  const { filterTerm, contacts, isLoading, error } = useSelector(selectContacts);
   const toggleModal = () => {
     setShowModal(!showModal);
   };
@@ -60,6 +61,7 @@ const App = () => {
       : contacts;
   };
 
+  // const visibleContacts = useSelector(selectVisibleConcats);
   const visibleContacts = getVisibleConcats();
 
   return (

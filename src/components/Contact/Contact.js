@@ -13,7 +13,6 @@ export const Contact = ({ contact, onDeleteContact }) => {
       {contact.name}: {contact.phone}
       <IconButton
         className="IconButtonDelete"
-        // onClick={() => onDeleteContact(contact.id)}
         onClick={handleDelete}
         aria-label="Delete contact"
       >

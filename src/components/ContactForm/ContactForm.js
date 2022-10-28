@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AddContact } from 'components/AddContact';
 import './ContactForm.scss';
+import { toast } from 'react-toastify';
 
 export default function ContactForm({ onSubmit }) {
   const [options, setOptions] = useState({ name: '', phone: '' });
@@ -16,6 +17,8 @@ export default function ContactForm({ onSubmit }) {
 
     onSubmit(options);
     reset();
+
+    toast.success('Contact added!');
   };
 
   const reset = () => {
