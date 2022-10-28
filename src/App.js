@@ -1,30 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact, deleteContact, setFilter } from 'redux/contactSlice';
+import { addContact, deleteContact, fetchContacts } from './redux/operations';
+import { setFilter } from './redux/contactSlice';
+import { nanoid } from '@reduxjs/toolkit';
+import { selectContact } from './redux/selectors';
 import Container from './components/Container';
 import { SectionTitle } from 'components/SectionTitle';
 import { ContactForm } from 'components/ContactForm';
 import { ContactList } from 'components/ContactList';
 import Filter from './components/Filter';
 import IconButton from './components/IconButton';
-import { ReactComponent as AddIcon } from './icons/add.svg';
 import Modal from './components/Modal';
-import { nanoid } from '@reduxjs/toolkit';
-import { getContact } from './redux/selectors';
+import { ReactComponent as AddIcon } from './icons/add.svg';
 
 const App = () => {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
-  const { filterTerm, contacts } = useSelector(getContact);
+  const { filterTerm, contacts, isLoading, error } = useSelector(selectContact);
   const toggleModal = () => {
     setShowModal(!showModal);
   };
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   const onAddContact = opt => {
     const newContact = {
       id: nanoid(),
       name: opt.name,
-      number: opt.number,
+      phone: opt.number,
     };
 
     const hasContact = contacts.find(option => option.name === newContact.name);
@@ -38,7 +43,7 @@ const App = () => {
   };
 
   const onDeleteContact = contactId => {
-     dispatch(deleteContact(contactId));
+    dispatch(deleteContact(contactId));
   };
 
   const changeFilter = e => {
@@ -70,6 +75,7 @@ const App = () => {
       )}
       <SectionTitle title={'Contacts'}></SectionTitle>
       <Filter value={filterTerm} onChange={changeFilter} />
+      {isLoading && !error && <b>Request in progress...</b>}
       {contacts !== undefined ? (
         <ContactList
           contacts={visibleContacts}

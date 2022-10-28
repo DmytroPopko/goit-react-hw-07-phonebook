@@ -3,7 +3,7 @@ import { AddContact } from 'components/AddContact';
 import './ContactForm.scss';
 
 export default function ContactForm({ onSubmit }) {
-  const [options, setOptions] = useState({ name: '', number: '' });
+  const [options, setOptions] = useState({ name: '', phone: '' });
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -19,7 +19,7 @@ export default function ContactForm({ onSubmit }) {
   };
 
   const reset = () => {
-    setOptions('');
+    setOptions( {name: '', phone: ''} );
   };
 
   return (
@@ -42,10 +42,10 @@ export default function ContactForm({ onSubmit }) {
         <input
           className="ContactForm__textarea"
           type="tel"
-          name="number"
+          name="phone"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          value={options.number}
+          value={options.phone}
           onChange={handleChange}
         />
         <AddContact />
